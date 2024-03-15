@@ -3,7 +3,9 @@ from sklearn.preprocessing import normalize
 import pandas as pd
 
 def sample_len_2(A, s):
-    #Samples according to the length-squared distribution.
+    """
+    Samples according to the length-squared distribution.
+    """
     
     probs = np.linalg.norm(A, axis=1) ** 2 / np.linalg.norm(A) ** 2
     R = np.zeros((s, A.shape[1]))
@@ -13,15 +15,17 @@ def sample_len_2(A, s):
     return R
 
 def LRA(A, k, eps=0.001, s=None):
-    # Gives a Low-Rank Approximation via Randomness.
-    # Takes:
-    # - A: Matrix to be approximated
-    # - k: Rank desired
-    # - s: Number of rows to sample
-    #    Optional:
-    #    - eps: Error of LRA (based on bounds)
-    #Outputs:
-    # - Low Rank Approximation
+    """
+    Gives a Low-Rank Approximation via Randomness.
+    Takes:
+    - A: Matrix to be approximated
+    - k: Rank desired
+    - s: Number of rows to sample
+       Optional:
+       - eps: Error of LRA (based on bounds)
+    Outputs:
+    - Low Rank Approximation
+    """
 
     if s is None:
         s = int(np.ceil(2 * np.sqrt(k) * np.linalg.norm(A) ** 4 / eps))
@@ -36,12 +40,14 @@ def LRA(A, k, eps=0.001, s=None):
     return A @ projection
 
 def LRA_r(A, r):
-    # Best Low-Rank Approximation (Frobenius Norm) using SVD.
-    # Takes:
-    # - A: Matrix to be approximated
-    # - k: Rank desired
-    # Outputs:
-    # - Low Rank Approximation
+    """
+    Best Low-Rank Approximation (Frobenius Norm) using SVD.
+    Takes:
+    - A: Matrix to be approximated
+    - k: Rank desired
+    Outputs:
+    - Low Rank Approximation
+    """
 
     U, S, V = np.linalg.svd(A)
     S = np.diag(S)
