@@ -52,3 +52,19 @@ def LRA_r(A, r):
     U, S, V = np.linalg.svd(A)
     S = np.diag(S)
     return U[:, :r] @ S[:r, :r] @ V[:r, :]
+
+def approx_SVD(A, s):
+    """
+    Approximate SVD.
+    Takes:
+    - A: Matrix to be approximated
+    - s: Number of samples to use
+    """
+    if s is None:
+        s = int(np.ceil(2 * np.sqrt(k) * np.linalg.norm(A) ** 4 / eps))
+    if s > A.shape[0]:
+        print("This will not save time, but we will proceed anyways.")
+    R = sample_len_2(A, s)
+    U,_,_ = np.linalg.svd(R @ R.T)
+    left_singular_vectors = normalize(U @ R, norm="l2")
+    return left_singular_vectors
